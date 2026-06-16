@@ -1,0 +1,141 @@
+{
+  "info": {
+    "name": "Smart Health Risk Predictor",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/register",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Jane\", \"email\": \"jane@test.com\", \"password\": \"secret123\"}"
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/login",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"jane@test.com\", \"password\": \"secret123\"}"
+        }
+      }
+    },
+    {
+      "name": "Predict Heart",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/predict/heart",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"age\": 54, \"sex\": 1, \"cp\": 1, \"trestbps\": 130, \"chol\": 240, \"fbs\": 0, \"restecg\": 1, \"thalach\": 150, \"exang\": 0, \"oldpeak\": 1, \"slope\": 1, \"ca\": 0, \"thal\": 2}"
+        }
+      }
+    },
+    {
+      "name": "Predict Diabetes",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/predict/diabetes",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"Pregnancies\": 1, \"Glucose\": 120, \"BloodPressure\": 70, \"SkinThickness\": 20, \"Insulin\": 80, \"BMI\": 28, \"DiabetesPedigreeFunction\": 0.5, \"Age\": 33}"
+        }
+      }
+    },
+    {
+      "name": "Predict Obesity",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/predict/obesity",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"Gender\": 1, \"Age\": 25, \"Height\": 1.7, \"Weight\": 70, \"family_history_with_overweight\": 1, \"FAVC\": 1, \"FCVC\": 2, \"NCP\": 3, \"CAEC\": 2, \"SMOKE\": 0, \"CH2O\": 2, \"SCC\": 0, \"FAF\": 1, \"TUE\": 1, \"CALC\": 1, \"MTRANS\": 2}"
+        }
+      }
+    },
+    {
+      "name": "History",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/history",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Reports",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/reports",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ]
+      }
+    }
+  ]
+}

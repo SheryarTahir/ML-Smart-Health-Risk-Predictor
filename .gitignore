@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.env
+
+# ML artifacts (regenerated)
+backend/saved_models/*.joblib
+backend/saved_models/metrics.json
+
+# Datasets (download locally)
+backend/datasets/*.csv
+
+# Node / frontend
+node_modules/
+dist/
+.vercel
+
+# Flutter
+mobile_app_flutter/build/
+mobile_app_flutter/.dart_tool/
+mobile_app_flutter/.flutter-plugins
+mobile_app_flutter/.flutter-plugins-dependencies
+mobile_app_flutter/.packages
+mobile_app_flutter/pubspec.lock
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

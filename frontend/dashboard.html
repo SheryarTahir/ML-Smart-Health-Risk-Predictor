@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Dashboard · SmartHealth</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/dashboard.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head><body>
+<div class="layout">
+  <aside class="sidebar">
+    <h2>SmartHealth</h2>
+    <nav class="menu">
+      <a href="#" class="active" data-tab="overview">📊 Overview</a>
+      <a href="#" data-tab="heart">❤️ Heart</a>
+      <a href="#" data-tab="diabetes">🩸 Diabetes</a>
+      <a href="#" data-tab="obesity">⚖️ Obesity</a>
+      <a href="#" data-tab="history">📜 History</a>
+      <a href="#" id="logoutBtn">🚪 Logout</a>
+    </nav>
+  </aside>
+  <main class="main">
+    <h2 id="welcome">Welcome</h2>
+
+    <section id="tab-overview">
+      <div class="stat-grid">
+        <div class="stat"><div class="label">Heart risk (avg)</div><div class="value" id="heartAvg">—</div><div class="bar"><span id="heartBar" style="width:0%"></span></div></div>
+        <div class="stat"><div class="label">Diabetes risk (avg)</div><div class="value" id="diabetesAvg">—</div><div class="bar"><span id="diabetesBar" style="width:0%"></span></div></div>
+        <div class="stat"><div class="label">Obesity probability (avg)</div><div class="value" id="obesityAvg">—</div><div class="bar"><span id="obesityBar" style="width:0%"></span></div></div>
+        <div class="stat"><div class="label">BMI</div><div class="value" id="bmiVal">—</div><div class="label" id="bmiCat">enter weight & height</div></div>
+      </div>
+      <div class="chart-grid">
+        <div class="panel"><h3>Risk distribution</h3><canvas id="pieChart"></canvas></div>
+        <div class="panel"><h3>Prediction count by type</h3><canvas id="barChart"></canvas></div>
+      </div>
+      <div class="panel"><h3>BMI calculator</h3>
+        <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <input id="bmiW" type="number" placeholder="Weight (kg)"/>
+          <input id="bmiH" type="number" placeholder="Height (cm)"/>
+        </div>
+        <br/><button class="btn btn-primary" id="bmiBtn">Calculate</button>
+      </div>
+    </section>
+
+    <section id="tab-heart" hidden>
+      <div class="panel"><h3>Heart disease prediction</h3>
+        <form id="heartForm" class="row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;"></form>
+        <br/><button class="btn btn-primary" id="heartSubmit">Predict</button>
+      </div>
+    </section>
+
+    <section id="tab-diabetes" hidden>
+      <div class="panel"><h3>Diabetes prediction</h3>
+        <form id="diabetesForm" class="row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;"></form>
+        <br/><button class="btn btn-primary" id="diabetesSubmit">Predict</button>
+      </div>
+    </section>
+
+    <section id="tab-obesity" hidden>
+      <div class="panel"><h3>Obesity prediction</h3>
+        <form id="obesityForm" class="row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;"></form>
+        <br/><button class="btn btn-primary" id="obesitySubmit">Predict</button>
+      </div>
+    </section>
+
+    <section id="tab-history" hidden>
+      <div class="panel">
+        <h3>Prediction history <button class="btn btn-ghost" id="downloadBtn" style="float:right">⬇ Download report</button></h3>
+        <div id="historyList">Loading…</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="resultModal"><div class="box">
+  <h3 id="rmTitle">Result</h3>
+  <p id="rmText"></p>
+  <div id="rmRecs"></div>
+  <br/><button class="btn btn-primary" id="rmClose">Close</button>
+</div></div>
+
+<script src="js/config.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/predict.js"></script>
+<script src="js/dashboard.js"></script>
+</body></html>

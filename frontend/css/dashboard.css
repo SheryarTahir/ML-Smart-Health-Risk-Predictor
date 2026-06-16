@@ -1,0 +1,27 @@
+.layout { display:grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+.sidebar { background: var(--surface); border-right: 1px solid rgba(255,255,255,.06); padding: 24px; }
+.sidebar h2 { margin: 0 0 24px; color: var(--primary); }
+.sidebar .menu a { display:block; color: var(--muted); padding: 10px 12px; border-radius: 10px; margin-bottom: 4px;}
+.sidebar .menu a.active, .sidebar .menu a:hover { color: var(--text); background: var(--surface-2);}
+.main { padding: 28px; }
+.stat-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
+.stat { background: var(--surface); padding: 20px; border-radius: var(--radius); border:1px solid rgba(255,255,255,.06);}
+.stat .label { color: var(--muted); font-size: 13px; }
+.stat .value { font-size: 28px; font-weight: 700; margin-top: 6px;}
+.bar { background: var(--surface-2); height: 10px; border-radius: 999px; overflow:hidden; margin-top: 10px;}
+.bar > span { display:block; height:100%; background: linear-gradient(90deg, var(--primary), var(--primary-2)); }
+.panel { background: var(--surface); border-radius: var(--radius); padding: 22px; margin-top: 22px; border:1px solid rgba(255,255,255,.06);}
+.panel h3 { margin: 0 0 14px; }
+.chart-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 22px;}
+@media (max-width: 900px){ .layout { grid-template-columns: 1fr; } .chart-grid { grid-template-columns: 1fr; } }
+.tabs { display:flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;}
+.tabs button { padding: 10px 14px; border-radius: 10px; border:1px solid rgba(255,255,255,.1);
+  background: var(--surface-2); color: var(--text); cursor: pointer;}
+.tabs button.active { background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #042018; border-color: transparent; }
+.modal { position:fixed; inset:0; background: rgba(2,8,20,.7); display:none; align-items:center; justify-content:center; z-index:50;}
+.modal.open { display:flex; }
+.modal .box { background: var(--surface); padding: 28px; border-radius: var(--radius); max-width: 500px; width: 90%;}
+.risk-tag { display:inline-block; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;}
+.risk-tag.low  { background: rgba(52,211,153,.15); color: var(--ok); }
+.risk-tag.moderate { background: rgba(251,191,36,.15); color: var(--warn); }
+.risk-tag.high { background: rgba(248,113,113,.15); color: var(--danger); }
