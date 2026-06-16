@@ -127,12 +127,14 @@ def _predict(name, payload):
         proba = float(max(proba_arr))
 
     return {
-        "disease": name,
-        "prediction": pred,
-        "probability": round(proba, 4) if proba else None,
-        "risk_level": _risk_level(proba, pred, name),
-        "recommendations": _recommend(name, pred, proba),
-    }
+    "disease": name,
+    "model": f"{name.capitalize()} Risk Model",
+    "prediction": pred,
+    "probability": round(proba, 4) if proba else None,
+    "risk_level": _risk_level(proba, pred, name),
+    "recommendations": _recommend(name, pred, proba),
+    "model": "Random Forest"
+}
 
 
 def _risk_level(p, pred=None, name=None):

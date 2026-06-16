@@ -138,7 +138,11 @@ async function loadHistory() {
     <thead><tr style="text-align:left;color:var(--muted);font-size:13px">
       <th>Date</th><th>Type</th><th>Model</th><th>Probability</th><th>Risk</th></tr></thead>
     <tbody>${j.items.map(it => `<tr style="border-top:1px solid rgba(255,255,255,.06)">
-      <td>${new Date(it.created_at).toLocaleString()}</td>
+      <td>${new Date(it.created_at).toLocaleString("en-PK", {
+      timeZone: "Asia/Karachi",
+      year: "numeric", month: "numeric", day: "numeric",
+      hour: "2-digit", minute: "2-digit", second: "2-digit"
+})}   </td>
       <td>${it.kind}</td>
       <td>${it.result.model}</td>
       <td>${it.result.probability ? (it.result.probability*100).toFixed(1)+"%" : "—"}</td>
@@ -150,10 +154,68 @@ if (document.getElementById("downloadBtn")) {
   document.getElementById("downloadBtn").onclick = async () => {
     const r = await authFetch("/history");
     const j = await r.json();
-    const blob = new Blob([JSON.stringify(j, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a"); a.href = url; a.download = "health_report.json"; a.click();
-    URL.revokeObjectURL(url);
+    if (!j.items || !j.items.length) {
+      alert("No predictions to download!");
+      return;
+    }
+
+    // ── CSV ──
+    const csvRows = [
+      ["Date", "Type", "Model", "Probability", "Risk Level"],
+      ...j.items.map(it => [
+        new Date(it.created_at).toLocaleString("en-PK", { timeZone: "Asia/Karachi" }),
+        it.kind,
+        it.result.model || it.kind + " Risk Model",
+        it.result.probability ? (it.result.probability * 100).toFixed(1) + "%" : "—",
+        it.result.risk_level
+      ])
+    ];
+    const csvContent = csvRows.map(r => r.join(",")).join("\n");
+    const csvBlob = new Blob([csvContent], { type: "text/csv" });
+    const csvUrl = URL.createObjectURL(csvBlob);
+    const csvA = document.createElement("a");
+    csvA.href = csvUrl; csvA.download = "health_report.csv"; csvA.click();
+    URL.revokeObjectURL(csvUrl);
+
+    // ── PDF ──
+    setTimeout(() => {
+      const rows = j.items.map(it => `
+        <tr>
+          <td>${new Date(it.created_at).toLocaleString("en-PK", { timeZone: "Asia/Karachi" })}</td>
+          <td>${it.kind}</td>
+          <td>${it.result.model || it.kind + " Risk Model"}</td>
+          <td>${it.result.probability ? (it.result.probability * 100).toFixed(1) + "%" : "—"}</td>
+          <td>${it.result.risk_level}</td>
+        </tr>`).join("");
+
+      const pdfHtml = `
+        <html><head><style>
+          body { font-family: Arial, sans-serif; padding: 30px; color: #222; }
+          h2 { color: #1a73e8; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+          th { background: #1a73e8; color: white; padding: 10px; text-align: left; }
+          td { padding: 9px 10px; border-bottom: 1px solid #ddd; }
+          tr:nth-child(even) { background: #f5f5f5; }
+          .footer { margin-top: 30px; font-size: 12px; color: #888; }
+        </style></head>
+        <body>
+          <h2>Smart Health Risk — Prediction Report</h2>
+          <p>Generated: ${new Date().toLocaleString("en-PK", { timeZone: "Asia/Karachi" })}</p>
+          <table>
+            <thead><tr>
+              <th>Date</th><th>Type</th><th>Model</th><th>Probability</th><th>Risk</th>
+            </tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div class="footer">Smart Health Risk Predictor &copy; 2026</div>
+        </body></html>`;
+
+      const pdfWin = window.open("", "_blank");
+      pdfWin.document.write(pdfHtml);
+      pdfWin.document.close();
+      pdfWin.focus();
+      setTimeout(() => { pdfWin.print(); pdfWin.close(); }, 500);
+    }, 800);
   };
 }
 
